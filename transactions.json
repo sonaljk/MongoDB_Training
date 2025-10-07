@@ -1,0 +1,86 @@
+[
+  {
+    "txnId": "T1001",
+    "accountId": "A5001",
+    "type": "Credit",
+    "amount": 12000,
+    "currency": "INR",
+    "date": "2025-09-20T10:15:00Z",
+    "status": "SUCCESS",
+    "channel": "Online",
+    "remarks": "Salary Credit"
+  },
+  {
+    "txnId": "T1002",
+    "accountId": "A5002",
+    "type": "Debit",
+    "amount": 2500,
+    "currency": "USD",
+    "date": "2025-09-21T14:30:00Z",
+    "status": "SUCCESS",
+    "channel": "ATM"
+  },
+  {
+    "txnId": "T1003",
+    "accountId": "A5001",
+    "type": "Debit",
+    "amount": 800,
+    "currency": "INR",
+    "date": "2025-09-22T08:45:00Z",
+    "status": "FAILED",
+    "channel": "POS",
+    "remarks": "Card declined"
+  },
+  {
+    "txnId": "T1004",
+    "accountId": "A5003",
+    "type": "Credit",
+    "amount": 5000,
+    "currency": "EUR",
+    "date": "2025-09-23T12:20:00Z",
+    "status": "SUCCESS",
+    "channel": "Bank Transfer"
+  },
+  {
+    "txnId": "T1005",
+    "accountId": "A5002",
+    "type": "Debit",
+    "amount": 1200,
+    "currency": "INR",
+    "date": "2025-09-24T18:00:00Z",
+    "status": "SUCCESS",
+    "channel": "UPI",
+    "remarks": "Grocery Payment"
+  },
+  {
+    "txnId": "T1006",
+    "accountId": "A5004",
+    "type": "Credit",
+    "amount": 700,
+    "currency": "INR",
+    "date": "2025-09-25T09:10:00Z",
+    "status": "PENDING",
+    "channel": "Cheque Deposit"
+  },
+  {
+    "txnId": "T1007",
+    "accountId": "A5003",
+    "type": "Debit",
+    "amount": 3200,
+    "currency": "GBP",
+    "date": "2025-09-26T21:45:00Z",
+    "status": "SUCCESS",
+    "channel": "Online",
+    "remarks": "Travel Booking"
+  },
+  {
+    "txnId": "T1008",
+    "accountId": "A5001",
+    "type": "Credit",
+    "amount": 1500,
+    "currency": "INR",
+    "date": "2025-09-27T11:05:00Z",
+    "status": "SUCCESS",
+    "channel": "UPI"
+  }
+]

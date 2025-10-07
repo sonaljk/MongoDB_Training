@@ -1,0 +1,44 @@
+package com.training.finance.controller;
+
+import com.training.finance.model.Transaction;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/transactions")
+public class TransactionController {
+
+
+    @PostMapping
+    public Transaction createTransaction(@RequestBody Transaction transaction) {
+        return new Transaction();
+    }
+
+    @GetMapping("/{accountId}")
+    public List<Transaction> getTransactions(@PathVariable String accountId) {
+        return Arrays.asList(new Transaction(), new Transaction());
+    }
+
+    @GetMapping("/")
+    public List<Transaction> getAccounts() {
+        return Arrays.asList(new Transaction(), new Transaction());
+    }
+
+    @GetMapping("/{accountId}/balance")
+    public double getBalance(@PathVariable String accountId) {
+        return 100;
+    }
+
+    @PutMapping("/{transactionId}")
+    public Transaction updateTransaction(@PathVariable String transactionId, @RequestBody Transaction transaction) {
+        // Logic to update the transaction
+        return transaction;
+    }
+
+    @DeleteMapping("/{transactionId}")
+    public void deleteTransaction(@PathVariable String transactionId) {
+        // Logic to delete the transaction
+    }
+}
