@@ -2,6 +2,7 @@ package com.training.finance.controller;
 
 import com.training.finance.model.Transaction;
 import com.training.finance.service.TransactionService;
+import org.bson.Document;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,21 @@ public class TransactionController {
         return transactionService.getBalance(accountId);
     }
 
+    @GetMapping("/{type}/{amount}")
+    public List<Transaction> getTransactionsByTypeGreaterThanAmount(@PathVariable String type, @PathVariable double amount) {
+        return transactionService.getTransactionsByTypeGreaterThanAmount(type,amount);
+    }
+
+    @GetMapping("/stats-by-city")
+    public List<Document> getSuccessTransactionStatsByCity() {
+        return transactionService.getSuccessTransactionStatsByCity();
+    }
+
+    @GetMapping("/accounts/{city}")
+    public List<Transaction> getTransactionsByCity(@PathVariable String city) {
+        return transactionService.getTransactionsByCity(city);
+    }
+
     @PutMapping("/{transactionId}")
     public ResponseEntity<Transaction> updateTransaction(@PathVariable String transactionId, @RequestBody Transaction transaction) {
         // Logic to update the transaction
@@ -57,4 +73,6 @@ public class TransactionController {
             return ResponseEntity.notFound().build();   // 404
         }
     }
+
+
 }

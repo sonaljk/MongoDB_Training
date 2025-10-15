@@ -57,7 +57,8 @@ mongodb://localhost:27017
     "city": "Mumbai",
     "state": "Maharashtra",
     "country": "India"
-  }
+  },
+  "tags": ["monthly", "salary", "priority"]
 }
 ```
 
@@ -81,22 +82,46 @@ Click Import
      { "type": "Credit" }
      ```
 
+     or
+
+     ```json
+     { "type": { "$eq": "Credit" } }
+     ```
+
    - Find all transactions where `amount > 2000`:
 
      ```json
      { "amount": { "$gt": 2000 } }
      ```
 
-   - Find all transactions for account `A5001`:
-
-     ```json
-     { "accountId": "A5001" }
-     ```
-
-   - Find all transactions done in `Mumbai`:
+   - Find all transactions based on embedded documnets. Find transactions done in `Mumbai`:
 
 ```json
 { "address.city": "Mumbai" }
+```
+
+- Find all transactions tagged as `"salary"`
+
+```json
+{ "tags": "salary" }
+```
+
+- Find all transactions that have both `"monthly"` and `"priority"` tags
+
+```json
+{ "tags": { "$all": ["monthly", "priority"] } }
+```
+
+- Find transactions that contain any of these tags (`"groceries"` or `"travel"`)
+
+```json
+{ "tags": { "$in": ["groceries", "travel"] } }
+```
+
+- Find transactions where the array contains exactly **3 elements**
+
+```json
+{ "tags": { "$size": 3 } }
 ```
 
 ---
@@ -109,6 +134,7 @@ Click Import
 
    - `status` from `"SUCCESS"` to `"FAILED"`.
    - `remarks` from `"Travel booking"` to `"Hotel confirmation"`.
+   - Add new element to `tags` of `bonus`
 
 4. Save changes.
 5. Run a query to verify:

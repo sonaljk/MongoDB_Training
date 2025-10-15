@@ -14,4 +14,6 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     void deleteByTxnId(String transactionId);
 
     Optional<Transaction> findByTxnId(String id);
+
+    List<Transaction> findByAddressCity(String city);
 }

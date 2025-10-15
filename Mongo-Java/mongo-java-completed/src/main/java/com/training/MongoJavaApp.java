@@ -1,13 +1,8 @@
 package com.training;
 
 import com.mongodb.MongoException;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.Updates;
+import com.mongodb.client.*;
+import com.mongodb.client.model.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -18,8 +13,9 @@ import org.bson.conversions.Bson;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-public class MongoJavaApp2 {
+public class MongoJavaApp {
 
 
     private static final String URI = "mongodb://localhost:27017";
@@ -101,9 +97,9 @@ public class MongoJavaApp2 {
         System.out.println("\nTransactions from Mumbai:");
         findDocuments(collection, Filters.eq("address.city", "Mumbai"));
 
-        // aggregate to find total amount of successful transactions
-        System.out.println("\nTotal amount of successful transactions:");
-        sumOfTransactions(collection);
+        // aggregate to find sum of debits for each account
+        System.out.println("\n Amount debited by each account ");
+        sumOfDebits(collection);
 
         // Update a document
         System.out.println("\nUpdating remarks of transaction T2001:");
@@ -151,7 +147,7 @@ public class MongoJavaApp2 {
     private static void insertManyDocuments(MongoCollection<Document> collection, java.util.List<Document> documents) {
         try {
             InsertManyResult result = collection.insertMany(documents);
-            System.out.println("Inserted count: " + result.getInsertedIds().size());
+            System.out.println("Inserted count: " + result.getInsertedIds());
         } catch (MongoException e) {
             System.out.println("Error inserting documents: " + e.getMessage());
         }
@@ -174,14 +170,22 @@ public class MongoJavaApp2 {
         }
     }
 
-    private static void sumOfTransactions(MongoCollection<Document> collection) {
+    private static void sumOfDebits(MongoCollection<Document> collection){
         try {
-            double totalSuccessAmount = collection.aggregate(Arrays.asList(
-                    new Document("$match", new Document("status", "SUCCESS")),
-                    new Document("$group", new Document("_id", null).append("total", new Document("$sum", "$amount")))
-            )).first().getDouble("total");
-            System.out.println("Total successful amount: " + totalSuccessAmount);
-        } catch (MongoException e) {
+            List<Bson> pipeline = Arrays.asList(
+                    Aggregates.match(Filters.eq("type", "Debit")),
+                    Aggregates.group("$accountId",
+                            Accumulators.sum("totalDebits", "$amount")),
+                    Aggregates.sort(Sorts.descending("totalDebits"))
+            );
+
+            AggregateIterable<Document> results = collection.aggregate(pipeline);
+
+            for (Document doc : results) {
+                System.out.println(doc.toJson());
+            }
+        }
+        catch (MongoException e) {
             System.out.println("Error aggregating documents: " + e.getMessage());
         }
     }

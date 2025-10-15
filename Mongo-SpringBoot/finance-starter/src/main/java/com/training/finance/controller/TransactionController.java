@@ -26,9 +26,19 @@ public class TransactionController {
         return Arrays.asList(new Transaction(), new Transaction());
     }
 
+    @GetMapping("/{type}/{amount}")
+    public List<Transaction> getTransactionsByTypeGreaterThanAmount(@PathVariable String type, @PathVariable double amount) {
+        return Arrays.asList(new Transaction(), new Transaction());
+    }
+
     @GetMapping("/{accountId}/balance")
     public double getBalance(@PathVariable String accountId) {
         return 100;
+    }
+
+    @GetMapping("/stats-by-city")
+    public List<Object> getSuccessTransactionStatsByCity() {
+        return Arrays.asList(new Object(), new Object());
     }
 
     @PutMapping("/{transactionId}")

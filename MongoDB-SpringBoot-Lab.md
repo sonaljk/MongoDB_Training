@@ -45,43 +45,60 @@ spring.data.mongodb.uri=mongodb://localhost:27017/finance_db
 
 ### 3. **Create the Entity Classes**
 
-3.1. Create a `Address` class in the `model` package. This will be a field in Transaction class
+3.1. Create a `Address` class in the `model` package.
+This will be a embedded document in Transaction class and hence does not need @Document annotation
+Add the below fields and getters/setters
 
 ```java
 package com.training.finance.model;
 
-import lombok.*;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Address {
+
     private String city;
     private String state;
     private String country;
+
+   public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }
 ```
 
 3.2 Update the `Transaction` Entity
 
 1. Update `Transaction` class in the `model` package to add all fields
-2. Annotate it with `@Document` to map it to MongoDB transactions collection.
+2. Annotate it with `@Document` to map it to MongoDB transactions collection and identify the primary key with @Id annotation
 
 ```java
 package com.training.finance.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Document(collection = "transactions")
 public class Transaction {
     @Id
@@ -97,8 +114,104 @@ public class Transaction {
     private String channel;
     private String remarks;
     private Address address;
-}
+    private List<String> tags;
 
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getTxnId() {
+        return txnId;
+    }
+
+    public void setTxnId(String txnId) {
+        this.txnId = txnId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+}
 ```
 
 ---
@@ -126,7 +239,10 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 ### 5. **Create the Service Layer**
 
 1. Create a `TransactionService` class in the `service` package.
-2. Add method `recordTransaction` to save a new transaction.
+
+### 6. **Create a new transaction**
+
+6.1 Add method `recordTransaction`in `TransactionService` to insert a new transaction i.e. a new document in our collection
 
 ```java
 package com.training.finance.service;
@@ -152,9 +268,11 @@ public class TransactionService {
 }
 ```
 
+`save()` is a method present in MongoRepository interface and hence we don't need to add anything to TransactionRepository
+
 ---
 
-### 6. **Update the Controller**
+6.2 Update the Controller
 
 1. Update `TransactionController.java` to create an instance of `TransactinService`
 2. Invoke `recordTransaction` from TransactionService to create a new transaction for Post request
@@ -180,19 +298,19 @@ public class TransactionController {
 
 ---
 
-### 7. **Run the Application**
+6.3 Run the Application
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
-3. Test the endpoints POST /api/transactions
+3. Test the endpoint POST /api/transactions
 4. Enter some details for various fields and hit Execute
 5. Check that return status is 200 and connect to MongoDB compass to check that record is now added
 
 ---
 
-### 8. **Return all transactions for a particular accountId**
+### 7. **Return all transactions for a particular accountId**
 
-8.1 Add method `getTransactionsByAccount` in `TransactionService` to return a list of transactions for the given account number
+7.1 Add method `getTransactionsByAccount` in `TransactionService` to return a list of transactions for the given account number
 
 ```java
 public List<Transaction> getTransactionsByAccount(String accountNumber) {
@@ -200,10 +318,10 @@ public List<Transaction> getTransactionsByAccount(String accountNumber) {
     }
 ```
 
-8.2 Add method `findByAccountId` to TransactionRepository
+7.2 Add method `findByAccountId` to TransactionRepository
 
 findByAccountId() is not a generic CRUD method and is not present in MongoRepository Interface.
-Hence we need to declare it in TransactionRepository
+Hence we need to declare it in TransactionRepository and MongoRepository will convert it to MongoDB query
 
 ```java
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
@@ -211,7 +329,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 }
 ```
 
-8.3. Invoke the service method `getTransactionsByAccount` from the TransactionController class
+7.3. Invoke the service method `getTransactionsByAccount` from the TransactionController class
 
 ```java
 @GetMapping("/{accountId}")
@@ -220,7 +338,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     }
 ```
 
-8.4 Re-run the Application and test the endpoint
+7.4 Re-run the Application and test the endpoint
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
@@ -230,9 +348,9 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
 ---
 
-### 9. **Return all transactions**
+### 8. **Return all transactions** -- optional
 
-9.1 Add method `getAllTransactions` in `TransactionService` to return a list of transactions
+8.1 Add method `getAllTransactions` in `TransactionService` to return a list of transactions
 
 ```java
 public List<Transaction> getAllTransactions() {
@@ -240,11 +358,11 @@ public List<Transaction> getAllTransactions() {
     }
 ```
 
-9.2 No changes to TransactionRepository
+8.2 No changes to TransactionRepository
 
 `findAll` method is present in the MongoRepository interface - so we don't need to declare it
 
-9.3. Invoke the service method `getAllTransactions` from the TransactionController class
+8.3. Invoke the service method `getAllTransactions` from the TransactionController class
 
 ```java
 @GetMapping("/")
@@ -253,7 +371,7 @@ public List<Transaction> getAllTransactions() {
     }
 ```
 
-9.4 Re-run the Application and test the endpoint
+8.4 Re-run the Application and test the endpoint
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
@@ -262,15 +380,55 @@ public List<Transaction> getAllTransactions() {
 
 ---
 
-### 10. **Return balance for a particular accountnumber**
+### 9. **Return transactions by given type and amount greater than given amount - custom query** - Use MongoTemplate
+
+9.1 Update `TransactionService`
+
+- Create an instance of MongoTemplate and initialize it in the constructor of `TransactionService`
+
+- Add method `getTransactionsByTypeGreaterThanAmount` to `TransactionService` to define custom query
+
+```java
+public List<Transaction> getTransactionsByTypeGreaterThanAmount(String type, double amount) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("type").is(type)
+                .and("amount").gte(amount));
+        List<Transaction> result = mongoTemplate.find(query, Transaction.class);
+        return result;
+    }
+```
+
+9.2 No changes to TransactionRepository as we are using MongoTemplate
+
+9.3. Invoke the service method `getTransactionsByTypeGreaterThanAmount` from the TransactionController class
+
+```java
+@GetMapping("/{type}/{amount}")
+public List<Transaction> getTransactionsByTypeGreaterThanAmount(@PathVariable String type, @PathVariable double amount) {
+        return transactionService.getTransactionsByTypeGreaterThanAmount(type,amount);
+}
+```
+
+9.4 Re-run the Application and test the endpoint
+
+1. Run the `FinanceApplication` class.
+2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
+3. Test the endpoints GET /api/transactions/{type}/{amount}
+4. Check that return status is 200 and check that the transactions are of entered type and greater than entered amount
+
+---
+
+### 10. **Return balance for a particular accountnumber** - without MongoTemplate Aggregation
 
 10.1 Add method `getBalance` in `TransactionService` to find all transactions for a accountnumber and calculate balance
+MongoRepository does not support Aggregation pipeline - so we have to rely on Java methods to sum transactions
 
 ```java
 public double getBalance(String accountNumber) {
         return repository.findByAccountId(accountNumber)
                 .stream()
-                .mapToDouble(transaction -> transaction.getType().equals("Credit")? transaction.getAmount():transaction.getAmount()*-1)
+                .mapToDouble(transaction ->
+                    transaction.getType().equals("Credit")? transaction.getAmount():transaction.getAmount()*-1)
                 .sum();
 }
 ```
@@ -297,9 +455,61 @@ public double getBalance(String accountNumber) {
 
 ---
 
-### 11. **Delete a particular transaction**
+### 11. **Return count and average of transactions per city** - with MongoTemplate Aggregation pipelines
 
-11.1 Add method `deleteTransaction` in `TransactionService` to check if the particular transactionid exists and then delete it
+11.1 Update `TransactionService` class
+
+- Create an instance of MongoTemplate and initialize it in the constructor of `TransactionService` (done in step 9)
+
+- Add method `getSuccessTransactionStatsByCity` in `TransactionService` to create a aggregation pipeline
+  -- match all transactions with status of SUCCESS
+  -- group them by address.city
+  -- count the number of transactions
+  -- find average of amount of these transactions and create a new field `avgAmount`
+  -- sort the result avgAmount descending
+
+```java
+
+private final MongoTemplate mongoTemplate;
+
+public TransactionService(TransactionRepository repository, MongoTemplate mongoTemplate) {
+        this.repository = repository;
+        this.mongoTemplate = mongoTemplate;
+}
+
+public List<Document> getSuccessTransactionStatsByCity() {
+        Aggregation agg = Aggregation.newAggregation(
+                                Aggregation.match(Criteria.where("status").is("SUCCESS")),
+                                Aggregation.group("address.city")
+                                    .count().as("totalTxns")
+                                    .avg("amount").as("avgAmount"),
+                                Aggregation.sort(Sort.by(Sort.Direction.DESC, "avgAmount"))
+                            );
+
+        return mongoTemplate.aggregate(agg, "transactions", Document.class).getMappedResults();
+```
+
+11.2. Invoke the service method `getSuccessTransactionStatsByCity` from the TransactionController class
+
+```java
+@GetMapping("/stats-by-city")
+    public List<Document> getSuccessTransactionStatsByCity() {
+        return transactionService.getSuccessTransactionStatsByCity();
+    }
+```
+
+11.3 Re-run the Application and test the endpoint
+
+1. Run the `FinanceApplication` class.
+2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
+3. Test the endpoints GET /api/transactions/stats-by-city
+4. Check that return status is 200 and see the grouped data
+
+---
+
+### 12. **Delete a particular transaction** -- optional
+
+12.1 Add method `deleteTransaction` in `TransactionService` to check if the particular transactionid exists and then delete it
 
 ```java
 public boolean deleteTransactionById(String transactionId) {
@@ -312,7 +522,7 @@ public boolean deleteTransactionById(String transactionId) {
     }
 ```
 
-11.2 Add methods to TransactionRepository
+12.2 Add methods to TransactionRepository
 
 existsByTxnId() and deleteByTxnId() are not a generic CRUD methods and not present in MongoRepository Interface.
 Hence we need to declare them in TransactionRepository
@@ -325,7 +535,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 }
 ```
 
-11.3. Invoke the service method `deleteTransactionById` from the TransactionController class
+12.3. Invoke the service method `deleteTransactionById` from the TransactionController class
 
 ```java
 @DeleteMapping("/{transactionId}")
@@ -339,7 +549,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     }
 ```
 
-11.4 Re-run the Application and test the endpoint
+12.4 Re-run the Application and test the endpoint
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
@@ -348,9 +558,9 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
 ---
 
-### 12. **Update a particular transaction**
+### 13. **Update a particular transaction** -- optional
 
-12.1 Add method `updateTransaction` in `TransactionService` to update if the particular transactionid exists
+13.1 Add method `updateTransaction` in `TransactionService` to update if the particular transactionid exists
 
 ```java
 public Optional<Transaction> updateTransaction(String id, Transaction updatedTransaction) {
@@ -372,7 +582,7 @@ public Optional<Transaction> updateTransaction(String id, Transaction updatedTra
     }
 ```
 
-12.2 Add method to TransactionRepository
+13.2 Add method to `TransactionRepository`
 
 findByTxnId() is not a generic CRUD methods and not present in MongoRepository Interface.
 Hence we need to declare it in TransactionRepository
@@ -386,7 +596,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 }
 ```
 
-12.3. Invoke the service method `updateTransaction` from the TransactionController class
+13.3. Invoke the service method `updateTransaction` from the `TransactionController` class
 
 ```java
 @PutMapping("/{transactionId}")
@@ -398,7 +608,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     }
 ```
 
-12.4 Re-run the Application and test the endpoint
+13.4 Re-run the Application and test the endpoint
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
