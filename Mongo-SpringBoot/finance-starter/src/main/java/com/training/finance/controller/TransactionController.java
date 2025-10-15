@@ -1,6 +1,7 @@
 package com.training.finance.controller;
 
 import com.training.finance.model.Transaction;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -42,13 +43,14 @@ public class TransactionController {
     }
 
     @PutMapping("/{transactionId}")
-    public Transaction updateTransaction(@PathVariable String transactionId, @RequestBody Transaction transaction) {
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable String transactionId, @RequestBody Transaction transaction) {
         // Logic to update the transaction
-        return transaction;
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{transactionId}")
-    public void deleteTransaction(@PathVariable String transactionId) {
+    public ResponseEntity<Void> deleteTransaction(@PathVariable String transactionId) {
         // Logic to delete the transaction
+        return ResponseEntity.notFound().build();
     }
 }

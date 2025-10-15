@@ -463,7 +463,7 @@ public double getBalance(String accountNumber) {
 
 1. Run the `FinanceApplication` class.
 2. Open the OpenAPI endpoint - http://localhost:8080/swagger-ui/index.html
-3. Test the endpoints GET /api/transactions/{accountId}/balance
+3. Test the endpoints GET /api/transactions/{accountId}/balance (accountId - A5004)
 4. Check that return status is 200 and check that amount
 
 ---
@@ -500,9 +500,12 @@ public List<Document> getSuccessTransactionStatsByCity() {
                             );
 
         return mongoTemplate.aggregate(agg, "transactions", Document.class).getMappedResults();
+}
 ```
 
 11.2. Invoke the service method `getSuccessTransactionStatsByCity` from the TransactionController class
+
+Make sure to change return type to List<Document>
 
 ```java
 @GetMapping("/stats-by-city")
@@ -584,7 +587,6 @@ public Optional<Transaction> updateTransaction(String id, Transaction updatedTra
                     existing.setAccountId(updatedTransaction.getAccountId());
                     existing.setType(updatedTransaction.getType());
                     existing.setAmount(updatedTransaction.getAmount());
-                    existing.setCurrency(updatedTransaction.getCurrency());
                     existing.setStatus(updatedTransaction.getStatus());
                     existing.setDate(updatedTransaction.getDate());
                     existing.setChannel(updatedTransaction.getChannel());
