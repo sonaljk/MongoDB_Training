@@ -393,6 +393,14 @@ public List<Transaction> getAllTransactions() {
 - Add method `getTransactionsByTypeGreaterThanAmount` to `TransactionService` to define custom query
 
 ```java
+
+private final MongoTemplate mongoTemplate;
+
+public TransactionService(TransactionRepository repository, MongoTemplate mongoTemplate) {
+        this.repository = repository;
+        this.mongoTemplate = mongoTemplate;
+}
+
 public List<Transaction> getTransactionsByTypeGreaterThanAmount(String type, double amount) {
         Query query = new Query();
         query.addCriteria(Criteria.where("type").is(type)
