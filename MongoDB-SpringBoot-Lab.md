@@ -229,7 +229,17 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
 ### 5. **Create the Service Layer**
 
-1. Create a `TransactionService` class in the `service` package.
+1. Create a `TransactionService` class in the `service` package and annotate it with @Service
+
+```java
+package com.training.finance.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class TransactionService {
+}
+```
 
 ### 6. **Create a new transaction**
 
@@ -312,7 +322,7 @@ public List<Transaction> getTransactionsByAccount(String accountNumber) {
     }
 ```
 
-7.2 Add method `findByAccountId` to TransactionRepository
+7.2 Add method `findByAccountId` to `TransactionRepository`
 
 findByAccountId() is not a generic CRUD method and is not present in MongoRepository Interface.
 Hence we need to declare it in TransactionRepository and MongoRepository will convert it to MongoDB query
@@ -323,7 +333,7 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 }
 ```
 
-7.3. Invoke the service method `getTransactionsByAccount` from the TransactionController class
+7.3. Invoke the service method `getTransactionsByAccount` from the `TransactionController` class
 
 ```java
 @GetMapping("/{accountId}")
