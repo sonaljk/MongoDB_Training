@@ -432,7 +432,8 @@ public List<Transaction> getTransactionsByTypeGreaterThanAmount(@PathVariable St
 
 ### 10. **Return balance for a particular accountnumber** - without MongoTemplate Aggregation
 
-10.1 Add method `getBalance` in `TransactionService` to find all transactions for a accountnumber and calculate balance
+10.1 Add method `getBalance` in `TransactionService` to find all transactions for a accountnumber and calculate balance.
+
 MongoRepository does not support Aggregation pipeline - so we have to rely on Java methods to sum transactions
 
 ```java
