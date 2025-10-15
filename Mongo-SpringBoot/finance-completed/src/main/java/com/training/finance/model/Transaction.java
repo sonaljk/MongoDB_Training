@@ -18,7 +18,6 @@ public class Transaction {
     private String accountId;
     private String type;
     private double amount;
-    private String currency;
     private String status;
     private LocalDateTime date;
     private String channel;
@@ -68,14 +67,6 @@ public class Transaction {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String getStatus() {
