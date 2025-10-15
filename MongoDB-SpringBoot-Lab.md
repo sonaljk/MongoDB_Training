@@ -233,7 +233,10 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
 ### 6. **Create a new transaction**
 
-6.1 Add method `recordTransaction`in `TransactionService` to insert a new transaction i.e. a new document in our collection
+6.1 Update `TransactionService` class
+
+- Create instance of TransactionRepository and initialize it in the constructor
+- Add method `recordTransaction`in `TransactionService` to insert a new transaction i.e. a new document in our collection
 
 ```java
 package com.training.finance.service;
