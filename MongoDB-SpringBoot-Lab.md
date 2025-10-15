@@ -455,7 +455,7 @@ public double getBalance(String accountNumber) {
 ```java
 @GetMapping("/{accountId}/balance")
     public double getBalance(@PathVariable String accountId) {
-        return service.getBalance(accountId);
+        return transactionService.getBalance(accountId);
     }
 ```
 
