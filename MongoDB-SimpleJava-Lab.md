@@ -165,7 +165,7 @@ Document txn3 = new Document("txnId", "T2003")
 .append("country", "India"))
 .append("tags", java.util.Arrays.asList("project", "credit", "online"));
 
-InsertManyResult result = insertManyDocuments(collections, Arrays.asList(txn2, txn3));
+insertManyDocuments(collections, Arrays.asList(txn2, txn3));
 ```
 
 ---
