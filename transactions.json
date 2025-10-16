@@ -124,7 +124,7 @@
     "status": "SUCCESS",
     "channel": "POS",
     "remarks": "Restaurant",
-    "tags": ["food", "entertainment"],
+    "tags": ["food", "entertainment", "shopping"],
     "address": {
       "city": "Paris",
       "country": "France"

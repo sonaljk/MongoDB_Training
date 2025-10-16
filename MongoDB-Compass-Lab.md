@@ -106,16 +106,16 @@ Click Import
 { "tags": "salary" }
 ```
 
-- Find all transactions that have both `"monthly"` and `"priority"` tags
+- Find all transactions that have only `"food"` and `"shopping"` tags
 
 ```json
-{ "tags": { "$all": ["monthly", "priority"] } }
+{ "tags": { "$all": ["food", "shopping"] } }
 ```
 
-- Find transactions that contain any of these tags (`"groceries"` or `"travel"`)
+- Find transactions that contain any of these tags (`"food"` or `"shopping"`)
 
 ```json
-{ "tags": { "$in": ["groceries", "travel"] } }
+{ "tags": { "$in": ["food", "shopping"] } }
 ```
 
 - Find transactions where the array contains exactly **3 elements**
@@ -137,11 +137,6 @@ Click Import
    - Add new element to `tags` of `bonus`
 
 4. Save changes.
-5. Run a query to verify:
-
-   ```json
-   { "status": "FAILED" }
-   ```
 
 ---
 
@@ -151,12 +146,6 @@ Click Import
 2. Click **Delete icon**.
 3. Confirm deletion.
 4. Verify by running:
-
-   ```json
-   { "txnId": "T1001" }
-   ```
-
-   → This should return **no results**.
 
 ---
 
