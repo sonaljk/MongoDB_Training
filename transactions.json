@@ -8,7 +8,7 @@
     "status": "SUCCESS",
     "channel": "Online",
     "remarks": "Salary Credit",
-    "tag": ["salary", "bonus", "refund"],
+    "tags": ["salary", "bonus", "refund"],
     "address": {
       "city": "Mumbai",
       "country": "India"
@@ -22,7 +22,7 @@
     "date": "2025-09-21T14:30:00Z",
     "status": "SUCCESS",
     "channel": "ATM",
-    "tag": ["travel", "food"],
+    "tags": ["travel", "food"],
     "address": {
       "city": "New York",
       "country": "USA"
@@ -37,7 +37,7 @@
     "status": "FAILED",
     "channel": "POS",
     "remarks": "Card declined",
-    "tag": ["shopping", "tax", "entertainment"],
+    "tags": ["shopping", "tax", "entertainment"],
     "address": {
       "city": "Paris",
       "country": "France"
@@ -51,7 +51,7 @@
     "date": "2025-09-23T12:20:00Z",
     "status": "SUCCESS",
     "channel": "Bank Transfer",
-    "tag": ["gift", "refund"],
+    "tags": ["gift", "refund"],
     "address": {
       "city": "Berlin",
       "country": "Germany"
@@ -66,7 +66,7 @@
     "status": "SUCCESS",
     "channel": "UPI",
     "remarks": "Grocery Payment",
-    "tag": ["food", "shopping"],
+    "tags": ["food", "shopping"],
     "address": {
       "city": "Mumbai",
       "country": "India"
@@ -80,7 +80,7 @@
     "date": "2025-09-25T09:10:00Z",
     "status": "PENDING",
     "channel": "Cheque Deposit",
-    "tag": ["bonus", "gift"],
+    "tags": ["bonus", "gift"],
     "address": {
       "city": "Paris",
       "country": "France"
@@ -95,7 +95,7 @@
     "status": "SUCCESS",
     "channel": "Online",
     "remarks": "Travel Booking",
-    "tag": ["travel", "entertainment", "shopping"],
+    "tags": ["travel", "entertainment", "shopping"],
     "address": {
       "city": "Berlin",
       "country": "Germany"
@@ -109,7 +109,7 @@
     "date": "2025-09-27T11:05:00Z",
     "status": "SUCCESS",
     "channel": "UPI",
-    "tag": ["salary", "refund"],
+    "tags": ["salary", "refund"],
     "address": {
       "city": "New York",
       "country": "USA"
@@ -124,7 +124,7 @@
     "status": "SUCCESS",
     "channel": "POS",
     "remarks": "Restaurant",
-    "tag": ["food", "entertainment"],
+    "tags": ["food", "entertainment"],
     "address": {
       "city": "Paris",
       "country": "France"
@@ -138,7 +138,7 @@
     "date": "2025-09-29T16:40:00Z",
     "status": "SUCCESS",
     "channel": "Bank Transfer",
-    "tag": ["refund", "gift", "bonus"],
+    "tags": ["refund", "gift", "bonus"],
     "address": {
       "city": "Mumbai",
       "country": "India"
